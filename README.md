@@ -1,5 +1,5 @@
 # Advent of Code 2025
----------
+
 To run the project, I can recommend using [Laravel Herd](https://herd.laravel.com/)
 
 ## Setup Instructions
