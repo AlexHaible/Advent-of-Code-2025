@@ -23,7 +23,7 @@ TXT;
     Storage::disk('public')->put('example2.txt', $contents);
 
     artisan('advent-of-code:day-one-part-two', ['file' => 'example2.txt'])
-        ->expectsOutput('6')
+        ->expectsOutputToContain('6 (took')
         ->assertExitCode(0);
 });
 
@@ -34,7 +34,7 @@ it('handles a single huge rotation correctly', function () {
     Storage::disk('public')->put('huge.txt', "R1000\n");
 
     artisan('advent-of-code:day-one-part-two', ['file' => 'huge.txt'])
-        ->expectsOutput('10')
+        ->expectsOutputToContain('10 (took')
         ->assertExitCode(0);
 });
 

@@ -23,10 +23,10 @@ TXT;
     Storage::disk('public')->put('shared.txt', $contents);
 
     artisan('advent-of-code:day-one', ['file' => 'shared.txt'])
-        ->expectsOutput('3')
+        ->expectsOutputToContain('3 (took')
         ->assertExitCode(0);
 
     artisan('advent-of-code:day-one-part-two', ['file' => 'shared.txt'])
-        ->expectsOutput('6')
+        ->expectsOutputToContain('6 (took')
         ->assertExitCode(0);
 });

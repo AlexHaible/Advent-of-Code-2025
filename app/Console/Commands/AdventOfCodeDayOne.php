@@ -28,6 +28,8 @@ class AdventOfCodeDayOne extends Command
             return Command::FAILURE;
         }
 
+        $start = hrtime(true);
+
         // Dial config
         $position = 50;
         $zeroCount = 0;
@@ -60,7 +62,29 @@ class AdventOfCodeDayOne extends Command
             }
         }
 
-        $this->info($zeroCount);
+        $durationNs = hrtime(true) - $start;
+
+        if ($durationNs < 1000) {
+            $time = $durationNs;
+            $unit = 'ns';
+        } elseif ($durationNs < 1_000_000) {
+            $time = $durationNs / 1000;
+            $unit = 'µs';
+        } elseif ($durationNs < 1_000_000_000) {
+            $time = $durationNs / 1_000_000;
+            $unit = 'ms';
+        } else {
+            $time = $durationNs / 1_000_000_000;
+            $unit = 's';
+        }
+
+        $this->info(sprintf(
+            '%d (took %.3f %s)',
+            $zeroCount,
+            $time,
+            $unit
+        ));
+
         return Command::SUCCESS;
     }
 }

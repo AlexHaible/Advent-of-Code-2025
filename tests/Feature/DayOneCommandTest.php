@@ -22,7 +22,7 @@ TXT;
     Storage::disk('public')->put('example1.txt', $contents);
 
     artisan('advent-of-code:day-one', ['file' => 'example1.txt'])
-        ->expectsOutput('3')
+        ->expectsOutputToContain('3 (took')
         ->assertExitCode(0);
 });
 
