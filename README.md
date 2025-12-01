@@ -1,5 +1,7 @@
 # Advent of Code 2025
 
+[![Tests](https://github.com/AlexHaible/Advent-of-Code-2025/actions/workflows/run-tests.yml/badge.svg)](https://github.com/AlexHaible/Advent-of-Code-2025/actions/workflows/run-tests.yml)
+
 To run the project, I can recommend using [Laravel Herd](https://herd.laravel.com/)
 
 ## Setup Instructions
