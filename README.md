@@ -5,16 +5,29 @@
 To run the project, I can recommend using [Laravel Herd](https://herd.laravel.com/)
 
 ## Setup Instructions
-1. Clone the project
-2. `mv .env.example .env`
-3. `composer install`
-4. `npm install && npm run build`
-5. `php artisan key:generate`
-6. `php artisan storage:link`
-7. `php artisan migrate`
-8. Set it up in your preferred bit of software that can serve PHP 
-9. Put your input file into `/storage/app/public/`
-10. Run the console commands, e.g. `php artisan advent-of-code:day-one input.txt` or `php artisan advent-of-code:day-one-part-two input.txt`
+```
+# clone the repo
+git clone AlexHaible/Advent-of-Code-2025
+
+# cd into the directory
+cd Advent-of-Code-2025
+
+# install dependencies
+composer install
+npm install
+
+# copy the .env file
+cp .env.example .env
+
+# generate the application key
+php artisan key:generate
+
+# run the migrations and seeder
+php artisan migrate
+```
+
+1. Put your input file into `/storage/app/public/`
+2. Run the console commands, e.g. `php artisan advent-of-code:day-one input.txt` or `php artisan advent-of-code:day-one-part-two input.txt`
 
 And your result should be something like this:
 
