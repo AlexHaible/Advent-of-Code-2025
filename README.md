@@ -10,9 +10,11 @@ To run the project, I can recommend using [Laravel Herd](https://herd.laravel.co
 3. `composer install`
 4. `npm install && npm run build`
 5. `php artisan key:generate`
-6. Set it up in your preferred bit of software that can serve PHP
-7. Put your input file into `/storage/app/public/`
-8. Run the console commands, e.g. `php artisan advent-of-code:day-one input.txt` or `php artisan advent-of-code:day-one-part-two input.txt`
+6. `php artisan storage:link`
+7. `php artisan migrate`
+8. Set it up in your preferred bit of software that can serve PHP 
+9. Put your input file into `/storage/app/public/`
+10. Run the console commands, e.g. `php artisan advent-of-code:day-one input.txt` or `php artisan advent-of-code:day-one-part-two input.txt`
 
 And your result should be something like this:
 
