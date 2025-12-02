@@ -93,21 +93,37 @@ class AdventOfCodeDayTwo extends Command
 
         $ranges = $merged;
 
+        $lastRangeEnd  = $ranges[\array_key_last($ranges)][1];
+        $rangeIndex    = 0;
+        $rangeCount    = \count($ranges);
+
         // Stream all "repeated pattern" IDs up to the max endpoint
         // and sum only those that fall into at least one range
         $sum = 0;
         foreach ($this->generateInvalidIds($maxEnd) as $id) {
-            foreach ($ranges as [$startId, $endId]) {
-                if ($id < $startId) {
-                    // Since ranges are sorted, no later range can contain this ID
-                    break;
-                }
-
-                if ($id <= $endId) {
-                    $sum += $id;
-                    break; // Don’t double-count if ranges ever overlap
-                }
+            // If we've passed the last range, we can stop entirely
+            if ($id > $lastRangeEnd) {
+                break;
             }
+
+            // Advance the current range index while this ID is beyond the end
+            while ($rangeIndex < $rangeCount && $id > $ranges[$rangeIndex][1]) {
+                $rangeIndex++;
+            }
+
+            if ($rangeIndex >= $rangeCount) {
+                break;
+            }
+
+            [$startId, $endId] = $ranges[$rangeIndex];
+
+            // If the ID is before the current range start, it isn't in any range yet
+            if ($id < $startId) {
+                continue;
+            }
+
+            // At this point, $startId <= $id <= $endId
+            $sum += $id;
         }
 
         $durationNs = hrtime(true) - $start;
