@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Support\DurationFormatter;
 use Illuminate\Console\Command;
 use App\Support\InputFileLoader;
 
@@ -126,27 +127,12 @@ class AdventOfCodeDayTwo extends Command
             $sum += $id;
         }
 
-        $durationNs = hrtime(true) - $start;
-
-        if ($durationNs < 1000) {
-            $time = $durationNs;
-            $unit = 'ns';
-        } elseif ($durationNs < 1_000_000) {
-            $time = $durationNs / 1000;
-            $unit = 'µs';
-        } elseif ($durationNs < 1_000_000_000) {
-            $time = $durationNs / 1_000_000;
-            $unit = 'ms';
-        } else {
-            $time = $durationNs / 1_000_000_000;
-            $unit = 's';
-        }
+        $duration = DurationFormatter::formatFromStart($start);
 
         $this->info(sprintf(
-            '%d (took %.3f %s)',
+            '%d (took %s)',
             $sum,
-            $time,
-            $unit
+            $duration
         ));
 
         return Command::SUCCESS;
