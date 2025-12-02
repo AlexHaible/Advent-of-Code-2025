@@ -68,12 +68,42 @@ class AdventOfCodeDayTwo extends Command
             return Command::FAILURE;
         }
 
+        // Sort and merge ranges to minimize membership checks
+        usort($ranges, static function (array $a, array $b): int {
+            return $a[0] <=> $b[0];
+        });
+
+        $merged = [];
+        foreach ($ranges as [$startId, $endId]) {
+            if (empty($merged)) {
+                $merged[] = [$startId, $endId];
+                continue;
+            }
+
+            $lastIndex = \count($merged) - 1;
+            [$lastStart, $lastEnd] = $merged[$lastIndex];
+
+            if ($startId <= $lastEnd + 1) {
+                // Overlapping or adjacent; merge
+                $merged[$lastIndex][1] = max($lastEnd, $endId);
+            } else {
+                $merged[] = [$startId, $endId];
+            }
+        }
+
+        $ranges = $merged;
+
         // Stream all "repeated pattern" IDs up to the max endpoint
         // and sum only those that fall into at least one range
         $sum = 0;
         foreach ($this->generateInvalidIds($maxEnd) as $id) {
             foreach ($ranges as [$startId, $endId]) {
-                if ($id >= $startId && $id <= $endId) {
+                if ($id < $startId) {
+                    // Since ranges are sorted, no later range can contain this ID
+                    break;
+                }
+
+                if ($id <= $endId) {
                     $sum += $id;
                     break; // Don’t double-count if ranges ever overlap
                 }
@@ -114,17 +144,25 @@ class AdventOfCodeDayTwo extends Command
     {
         $maxLen = strlen((string) $maxEnd);
 
+        $pow10 = [1];
+        for ($i = 1; $i <= $maxLen; $i++) {
+            $pow10[$i] = $pow10[$i - 1] * 10;
+        }
+
         for ($totalLen = 2; $totalLen <= $maxLen; $totalLen += 2) {
             $halfLen = (int) ($totalLen / 2);
 
-            $startPattern = (int) pow(10, $halfLen - 1);
-            $endPattern   = (int) pow(10, $halfLen) - 1;
+            $startPattern = $pow10[$halfLen - 1];
+            $endPattern   = $pow10[$halfLen] - 1;
+            $factor       = $pow10[$halfLen];
 
             for ($p = $startPattern; $p <= $endPattern; $p++) {
-                $s = (string) $p . (string) $p;
-                $n = (int) $s;
+                // Build the repeated number numerically: n = p * 10^halfLen + p
+                $n = $p * $factor + $p;
 
                 if ($n > $maxEnd) {
+                    // For this half-length, larger patterns only increase n;
+                    // and for larger total lengths, n will only grow further.
                     break 2;
                 }
 
