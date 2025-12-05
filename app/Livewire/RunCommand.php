@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Artisan;
@@ -33,11 +34,35 @@ class RunCommand extends Component
         'day4-part1' => ['advent-of-code:day-four', 'day4.txt'],
         'day4-part2' => ['advent-of-code:day-four-part-two', 'day4.txt'],
 
-        // Runs the full test suite; no input file argument.
+        'day5-part1' => ['advent-of-code:day-five', 'day5.txt'],
+        'day5-part2' => ['advent-of-code:day-five-part-two', 'day5.txt'],
+
+        'day6-part1' => ['advent-of-code:day-six', 'day6.txt'],
+        'day6-part2' => ['advent-of-code:day-six-part-two', 'day6.txt'],
+
+        'day7-part1' => ['advent-of-code:day-seven', 'day7.txt'],
+        'day7-part2' => ['advent-of-code:day-seven-part-two', 'day7.txt'],
+
+        'day8-part1' => ['advent-of-code:day-eight', 'day8.txt'],
+        'day8-part2' => ['advent-of-code:day-eight-part-two', 'day8.txt'],
+
+        'day9-part1' => ['advent-of-code:day-nine', 'day9.txt'],
+        'day9-part2' => ['advent-of-code:day-nine-part-two', 'day9.txt'],
+
+        'day10-part1' => ['advent-of-code:day-ten', 'day10.txt'],
+        'day10-part2' => ['advent-of-code:day-ten-part-two', 'day10.txt'],
+
+        'day11-part1' => ['advent-of-code:day-eleven', 'day11.txt'],
+        'day11-part2' => ['advent-of-code:day-eleven-part-two', 'day11.txt'],
+
+        'day12-part1' => ['advent-of-code:day-twelve', 'day12.txt'],
+        'day12-part2' => ['advent-of-code:day-twelve-part-two', 'day12.txt'],
+
         'tests'      => ['test', null],
     ];
 
     public string $commandKey;
+    public int $day;
     public string $label;
     public ?string $file = null;
     public string $filePlaceholder = '';
@@ -45,10 +70,11 @@ class RunCommand extends Component
     public bool $running = false;
     public $uploadedFile;
 
-    public function mount(string $commandKey, string $label, ?string $file = null): void
+    public function mount(string $commandKey, string $label, ?int $day = null, ?string $file = null): void
     {
         $this->commandKey = $commandKey;
         $this->label      = $label;
+        $this->day        = $day ?? $this->inferDayFromCommandKey($commandKey);
         $this->file       = $file;
 
         // Derive a sensible placeholder from the command map, if possible
@@ -66,6 +92,23 @@ class RunCommand extends Component
         } else {
             $this->filePlaceholder = 'Input file (optional)';
         }
+    }
+
+    private function inferDayFromCommandKey(string $key): int
+    {
+        if (preg_match('/^day(\d+)-/i', $key, $matches)) {
+            return (int) $matches[1];
+        }
+
+        // Fallback: treat as day 1 if we can’t parse it
+        return 1;
+    }
+
+    public function isUnlocked(): bool
+    {
+        $unlockDate = Carbon::create(2025, 12, 1)->addDays($this->day - 1);
+
+        return now()->greaterThanOrEqualTo($unlockDate);
     }
 
     public function run(): void

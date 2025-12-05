@@ -2,14 +2,21 @@
     <button
         wire:click="run"
         wire:loading.attr="disabled"
-        class="px-3 py-1.5 rounded bg-blue-600 text-white text-xs hover:bg-blue-700 disabled:opacity-50"
+        @disabled(! $this->isUnlocked())
+        class="px-3 py-1.5 rounded text-xs
+        @if(!$this->isUnlocked()) bg-gray-600 text-gray-300 cursor-not-allowed
+        @else bg-blue-600 text-white hover:bg-blue-700
+        @endif"
     >
         <span wire:loading.remove>{{ $label }}</span>
         <span wire:loading>Running...</span>
     </button>
 
     @if ($filePlaceholder !== 'No input file required')
-        <label class="relative cursor-pointer px-3 py-1.5 rounded bg-gray-700 text-white text-xs hover:bg-gray-600">
+        <label class="relative px-3 py-1.5 rounded text-xs
+                @if(!$this->isUnlocked()) bg-gray-600 text-gray-300 cursor-not-allowed
+                @else bg-gray-700 text-white hover:bg-gray-600 cursor-pointer
+                @endif">
             <span>
                 @if($uploadedFile)
                     {{ $uploadedFile->getClientOriginalName() }}
@@ -20,7 +27,11 @@
             <input
                 type="file"
                 wire:model="uploadedFile"
-                class="absolute inset-0 opacity-0 cursor-pointer"
+                @disabled(! $this->isUnlocked())
+                class="absolute inset-0 opacity-0
+                @if(!$this->isUnlocked()) cursor-not-allowed
+                @else cursor-pointer
+                @endif"
                 accept=".txt"
             >
         </label>
