@@ -33,7 +33,7 @@
     </header>
 
     <main class="flex-1 overflow-hidden">
-        <div class="max-w-5xl mx-auto px-4 py-6 h-full flex flex-col min-h-0">
+        <div class="max-w-full mx-auto mx-4 my-6 h-full flex flex-col items-center min-h-0">
             @yield('content')
         </div>
     </main>

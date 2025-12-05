@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="h-full">
+    <div class="h-full w-full">
         {{-- Top section: header + day buttons, fixed to the top half of the viewport with its own scroll --}}
-        <div class="h-1/2 overflow-y-auto pr-2 pb-24">
-            <div class="max-w-4xl mx-auto">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="h-1/2 overflow-y-auto pr-2 pb-24 w-full mx-4">
+            <div class="max-w-full mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-center">
                     {{-- Day 1 --}}
                     <livewire:run-command
                         :command-key="'day1-part1'"
