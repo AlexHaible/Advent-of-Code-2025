@@ -43,7 +43,6 @@ class AdventOfCodeDayFivePartTwo extends Command
             }
 
             if (!preg_match('/^(\d+)\s*-\s*(\d+)$/', $line, $m)) {
-                $this->warn("Skipping invalid range line: {$line}");
                 continue;
             }
 
