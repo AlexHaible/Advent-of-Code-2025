@@ -123,4 +123,16 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | PHP CLI Binary
+    |--------------------------------------------------------------------------
+    |
+    | When running console-like tasks from the web layer (for example, the
+    | "Run tests" button in the Advent of Code UI), we need a real PHP CLI
+    | binary, not php-fpm. Point this to your local PHP binary.
+    |
+    */
+
+    'php_cli' => env('APP_PHP_CLI', 'php'),
 ];

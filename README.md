@@ -16,8 +16,15 @@ cd Advent-of-Code-2025
 composer install
 npm install
 
-# copy the .env file
+# copy the .env file and set the APP_PHP_CLI variable
 cp .env.example .env
+
+# set the APP_PHP_CLI variable
+if sed --version >/dev/null 2>&1; then
+  sed -i 's|^APP_PHP_CLI=.*|APP_PHP_CLI="'"$(which php)"'"|g' .env
+else
+  sed -i '' 's|^APP_PHP_CLI=.*|APP_PHP_CLI="'"$(which php)"'"|g' .env
+fi || echo 'APP_PHP_CLI="'"$(which php)"'"' >> .env
 
 # generate the application key
 php artisan key:generate
