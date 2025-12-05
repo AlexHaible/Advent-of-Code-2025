@@ -28,7 +28,7 @@
             <button
                 type="button"
                 wire:click="$set('uploadedFile', null)"
-                class="px-2 py-1 rounded bg-red-600 text-white text-xs hover:bg-red-700"
+                class="px-2 py-1 rounded text-xs bg-red-600 text-white hover:bg-red-700"
             >
                 Clear
             </button>
